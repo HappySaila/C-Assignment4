@@ -1,7 +1,9 @@
 run : 
+	clear
 	g++ $(SRCDIR)/*.cpp $(CPPFLAGS) -c
 	g++ *.o -o $(PROGRAM)
-	./$(PROGRAM)
+	clear
+	./$(PROGRAM) -a Lenna_hat_mask.pgm Lenna_standard.pgm
 
 
 
@@ -11,5 +13,6 @@ SRCDIR = ./src
 PROGRAM = main
 
 clean :
-	rm $(SRCDIR)/*.o
+	rm *.o
+	rm $(PROGRAM)
 
