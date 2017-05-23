@@ -45,6 +45,7 @@ Image &Image::operator=(const Image & I){
 }
 
 void Image::Read(string fileName){
+    name = fileName;
     fstream reader(fileName, ios::in | ios::binary);
     string line;
 
@@ -106,21 +107,22 @@ void Image::Write(string fileName){
 
 //operator overloads
 Image &Image::operator+(Image &I){
+    cout << "Adding image " << name << " and " << I.name << "..." << endl;
     //without iterator
-    for (int i = 0; i < height * width; i++){
-        int pixel = data.get()[i] + I.data.get()[i];
-        pixel = (pixel > 255) ? 255 : pixel;
-        data.get()[i] =  (unsigned char)pixel;
-    }
+
+    // for (int i = 0; i < height * width; i++){
+    //     int pixel = data.get()[i] + I.data.get()[i];
+    //     pixel = (pixel > 255) ? 255 : pixel;
+    //     data.get()[i] =  (unsigned char)pixel;
+    // }
 
     //with iterator
     Image::iterator beg = this->begin(), end = this->end(); 
     Image::iterator inStart = I.begin(), inEnd = I.end();
     while ( beg != end) { 
         int pixel = *beg + *inStart;
-        // beg = (unsigned char) pixel;
+        beg = pixel;
         ++beg; ++inStart; 
-        cout << (int)(*beg);
     }
 
     return *this;
@@ -132,6 +134,13 @@ Image::iterator & Image::iterator::operator++(void){
 
 Image::iterator & Image::iterator::operator=(const Image::iterator & rhs){
     ptr = rhs.ptr;
+    return *this;
+}
+
+Image::iterator & Image::iterator::operator=(int pixel){
+    int val = *ptr + (unsigned char)pixel;
+    val = (val > 255) ? 255 : (val < 0) ? 0 : val;
+    *ptr = val;
     return *this;
 }
 

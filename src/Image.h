@@ -7,6 +7,7 @@ namespace WLSGRA012{
     class Image{
         private:
             int width, height;
+            std::string name;
             std::unique_ptr<unsigned char[]> data;
         public:
             int thresh;
