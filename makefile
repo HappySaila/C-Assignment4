@@ -27,6 +27,12 @@ thresh:
 	./$(PROGRAM) -t Lenna_standard.pgm 125
 	open Thresh.pgm
 
+mask:
+	make compile
+	clear
+	./$(PROGRAM) -l Lenna_hat_mask.pgm Lenna_standard.pgm
+	open Mask.pgm
+
 CPPFLAGS = -std=c++11
 
 SRCDIR = ./src

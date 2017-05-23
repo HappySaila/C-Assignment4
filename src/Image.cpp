@@ -147,6 +147,29 @@ Image & Image::operator!(void){
     return *this;
 }
 
+Image &Image::operator/(Image &I){
+    cout << "Masking" << endl;
+
+    Image::iterator beg = this->begin(), end = this->end(); 
+    Image::iterator inStart = I.begin(), inEnd = I.end();
+    while ( beg != end ) { 
+        int pixel = (*beg - *inStart);
+        
+        if ((int)*beg == 255){
+            //pixel is white - copy other images pixel over
+            pixel = (int)*inStart;
+        } else {
+            //pixel is not white - keep images 
+            pixel = 0;
+        }
+        
+        beg = pixel;
+        ++beg; ++inStart; 
+    }
+
+    return *this;
+}
+
 Image &Image::operator*(int f){
     cout << "Thresholding with value: " << f << endl;
 

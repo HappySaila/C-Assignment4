@@ -8,6 +8,7 @@ using namespace WLSGRA012;
 void AddImages(Image & I1, Image & I2);
 void SubtractImages(Image & I1, Image & I2);
 void InvertImage(Image & I1);
+void MaskImages(Image & I1, Image & I2);
 void ThreshImage(Image & I1, string f);
 
 int main(int argc, char const *argv[]){
@@ -30,7 +31,7 @@ int main(int argc, char const *argv[]){
     } else if(command == "-i"){
         InvertImage(I1);
     } else if(command == "-l"){
-        cout << "masking images" << endl;
+        MaskImages(I1, I2);
     } else if(command == "-t"){
         ThreshImage(I1, argv[3]);
     } else {
@@ -61,4 +62,10 @@ void ThreshImage(Image & I1, string f){
     Image out;
     out = I1 * thresh;
     out.Write("Thresh.pgm");
+}
+
+void MaskImages(Image & I1, Image & I2){
+    Image out;
+    out = I1 / I2;
+    out.Write("Mask.pgm");
 }
