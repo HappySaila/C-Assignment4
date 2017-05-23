@@ -3,7 +3,7 @@ run :
 	g++ $(SRCDIR)/*.cpp $(CPPFLAGS) -c
 	g++ *.o -o $(PROGRAM)
 	clear
-	./$(PROGRAM) -a Lenna_hat_mask.pgm Lenna_standard.pgm
+	./$(PROGRAM) -a Lenna_hat_mask.pgm Lenna_standard.pgm  
 
 
 
