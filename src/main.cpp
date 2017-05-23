@@ -17,7 +17,7 @@ int main(int argc, char const *argv[]){
         I1.Write("outfile1.pgm");
         // Image n(I2);
         Image n;
-        n = I2+I1;
+        n = I1+I1;
         n.Write("Add.pgm");
     } else if (argc == 3){
         //there is 1 image passed in 

@@ -25,18 +25,22 @@ namespace WLSGRA012{
             Image &operator/(Image &I);
 
             class iterator{ 
+                friend class Image;
                 private:
                     unsigned char *ptr;
                 public:
                     // construct only via Image class (begin/end)
                     iterator(u_char *p) : ptr(p) {
-                        std::cout << "iterator created" << std::endl;
+
                     }
                     //copy construct is public
                     iterator( const iterator & rhs) : ptr(rhs.ptr) {}
                     // define overloaded ops: *, ++, --, =
                     iterator & operator=(const iterator & rhs);
+                    iterator & operator=(int pixel);
                     iterator & operator++(void);
+                    unsigned char operator*(void);
+                    bool operator!=(const iterator & rhs);
 
             };
 
@@ -45,7 +49,7 @@ namespace WLSGRA012{
             }
 
             iterator end(void) { 
-                u_char *ptr = &data.get()[(width*height)-1];
+                u_char *ptr = &data.get()[(width*height)];
                 return iterator(ptr);
             }
     };

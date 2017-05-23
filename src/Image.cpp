@@ -40,6 +40,8 @@ Image &Image::operator=(const Image & I){
     for (int i = 0; i <height*width; i++){
         data.get()[i] = I.data.get()[i];
     }
+
+    return *this;
 }
 
 void Image::Read(string fileName){
@@ -89,8 +91,9 @@ void Image::Write(string fileName){
             writer << data.get()[i];
         }
 
+
         //for loop implemented with iterator
-        // for (Image::iterator it = begin(); it != end(); it++){
+        // for (iterator it = begin(); it != end(); it++){
         //     write << *it.ptr;
         // }
         
@@ -103,17 +106,49 @@ void Image::Write(string fileName){
 
 //operator overloads
 Image &Image::operator+(Image &I){
+    //without iterator
     for (int i = 0; i < height * width; i++){
-        int pixel = data.get()[i] - I.data.get()[i];
+        int pixel = data.get()[i] + I.data.get()[i];
         pixel = (pixel > 255) ? 255 : pixel;
-        pixel = (pixel < 0) ? 0 : pixel;
         data.get()[i] =  (unsigned char)pixel;
-
     }
+
+    //with iterator
+    Image::iterator beg = this->begin(), end = this->end(); 
+    Image::iterator inStart = I.begin(), inEnd = I.end();
+    while ( beg != end) { 
+        int pixel = *beg + *inStart;
+        // beg = (unsigned char) pixel;
+        ++beg; ++inStart; 
+        cout << (int)(*beg);
+    }
+
+    return *this;
+}
+Image::iterator & Image::iterator::operator++(void){
+    ptr++;
     return *this;
 }
 
-Image::iterator &Image::iterator::operator++(void){
-    *ptr+=1;
+Image::iterator & Image::iterator::operator=(const Image::iterator & rhs){
+    ptr = rhs.ptr;
     return *this;
 }
+
+unsigned char Image::iterator::operator*(void){
+    return *ptr;
+}
+
+bool Image::iterator::operator!=(const Image::iterator & rhs){
+    return rhs.ptr != ptr;
+}
+
+// void Image::copy(const Image& rhs) {
+//     Image::iterator beg = this->begin(), end = this->end(); 
+//     Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
+//     while ( beg != end) { 
+//         *beg = *inStart; 
+//         ++beg; 
+//         ++inStart; 
+//     } 
+// }
