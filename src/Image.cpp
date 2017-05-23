@@ -88,15 +88,11 @@ void Image::Write(string fileName){
      if (writer.good()){
         writer << "P5" << endl << "#Assignment5 file - WLSGRA012" << endl << width << " " << height << endl << thresh << endl;
 
-        for (int i =0; i<height*width; i++){
-            writer << data.get()[i];
+        Image::iterator beg = this->begin(), end = this->end(); 
+        while (beg != end){
+            writer << *beg;
+            ++beg;
         }
-
-
-        //for loop implemented with iterator
-        // for (iterator it = begin(); it != end(); it++){
-        //     write << *it.ptr;
-        // }
         
      } else {
          cout << "File: " << fileName << " failed to open!" << endl;
@@ -105,28 +101,40 @@ void Image::Write(string fileName){
      writer.close();
     }
 
-//operator overloads
+//operator overloads for Image
 Image &Image::operator+(Image &I){
     cout << "Adding image " << name << " and " << I.name << "..." << endl;
-    //without iterator
 
-    // for (int i = 0; i < height * width; i++){
-    //     int pixel = data.get()[i] + I.data.get()[i];
-    //     pixel = (pixel > 255) ? 255 : pixel;
-    //     data.get()[i] =  (unsigned char)pixel;
-    // }
-
-    //with iterator
     Image::iterator beg = this->begin(), end = this->end(); 
     Image::iterator inStart = I.begin(), inEnd = I.end();
     while ( beg != end) { 
-        int pixel = *beg + *inStart;
+        int pixel = (*inStart + *beg);
+
         beg = pixel;
+        
         ++beg; ++inStart; 
     }
 
     return *this;
 }
+
+Image &Image::operator-(Image &I){
+    cout << "Subtracting image " << name << " and " << I.name << "..." << endl;
+
+    Image::iterator beg = this->begin(), end = this->end(); 
+    Image::iterator inStart = I.begin(), inEnd = I.end();
+    while ( beg != end) { 
+        int pixel = (*beg - *inStart);
+        beg = pixel;
+        
+        ++beg; ++inStart; 
+    }
+
+    return *this;
+}
+
+
+//operator overloads for iterator
 Image::iterator & Image::iterator::operator++(void){
     ptr++;
     return *this;
@@ -137,10 +145,12 @@ Image::iterator & Image::iterator::operator=(const Image::iterator & rhs){
     return *this;
 }
 
-Image::iterator & Image::iterator::operator=(int pixel){
-    int val = *ptr + (unsigned char)pixel;
+Image::iterator & Image::iterator::operator=(int val){
     val = (val > 255) ? 255 : (val < 0) ? 0 : val;
-    *ptr = val;
+    // cout << pixel << "-" << (int)*ptr << "=" << val << ".";
+    cout << val << "."; 
+
+    *ptr = (unsigned char) val;
     return *this;
 }
 
@@ -151,13 +161,3 @@ unsigned char Image::iterator::operator*(void){
 bool Image::iterator::operator!=(const Image::iterator & rhs){
     return rhs.ptr != ptr;
 }
-
-// void Image::copy(const Image& rhs) {
-//     Image::iterator beg = this->begin(), end = this->end(); 
-//     Image::iterator inStart = rhs.begin(), inEnd = rhs.end();
-//     while ( beg != end) { 
-//         *beg = *inStart; 
-//         ++beg; 
-//         ++inStart; 
-//     } 
-// }

@@ -5,6 +5,7 @@ using namespace std;
 using namespace WLSGRA012;
 
 void AddImages(Image & I1, Image & I2);
+void SubtractingImages(Image & I1, Image & I2);
 
 int main(int argc, char const *argv[]){
     using namespace std;
@@ -22,7 +23,7 @@ int main(int argc, char const *argv[]){
     if (command == "-a"){
         AddImages(I1, I2);
     } else if(command == "-s"){
-        cout << "subtracting images" << endl;
+        SubtractingImages(I1, I2);
     } else if(command == "-i"){
         cout << "inverting image" << endl;
     } else if(command == "-l"){
@@ -37,5 +38,11 @@ int main(int argc, char const *argv[]){
 void AddImages(Image & I1, Image & I2){
     Image out;
     out = I1 + I2;
-    out.Write("Read.pgm");
+    out.Write("Add.pgm");
+}
+
+void SubtractingImages(Image & I1, Image & I2){
+    Image out;
+    out = I2 - I1;
+    out.Write("Sub.pgm");
 }
