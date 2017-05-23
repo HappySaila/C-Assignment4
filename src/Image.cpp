@@ -133,6 +133,40 @@ Image &Image::operator-(Image &I){
     return *this;
 }
 
+Image & Image::operator!(void){
+    cout << "Inverting" << endl;
+
+    Image::iterator beg = this->begin(), end = this->end(); 
+    while ( beg != end) { 
+        int pixel = 255 - (*beg);
+        beg = pixel;
+        
+        ++beg;
+    }
+
+    return *this;
+}
+
+Image &Image::operator*(int f){
+    cout << "Thresholding with value: " << f << endl;
+
+    Image::iterator beg = this->begin(), end = this->end(); 
+    while ( beg != end) { 
+        int pixel = (*beg);
+        if (pixel > f){
+            pixel = 255;
+        } else {
+            pixel = 0;
+        }
+        beg = pixel;
+        
+        ++beg;
+    }
+
+    return *this;
+}
+
+
 
 //operator overloads for iterator
 Image::iterator & Image::iterator::operator++(void){
@@ -147,9 +181,6 @@ Image::iterator & Image::iterator::operator=(const Image::iterator & rhs){
 
 Image::iterator & Image::iterator::operator=(int val){
     val = (val > 255) ? 255 : (val < 0) ? 0 : val;
-    // cout << pixel << "-" << (int)*ptr << "=" << val << ".";
-    cout << val << "."; 
-
     *ptr = (unsigned char) val;
     return *this;
 }

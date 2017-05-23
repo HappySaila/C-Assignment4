@@ -5,6 +5,7 @@
 
 namespace WLSGRA012{
     class Image{
+        
         private:
             int width, height;
             std::string name;
@@ -24,6 +25,8 @@ namespace WLSGRA012{
             Image &operator+(Image &I);
             Image &operator-(Image &I);
             Image &operator/(Image &I);
+            Image &operator!(void);
+            Image &operator* (int f);
 
             class iterator{ 
                 friend class Image;
@@ -54,6 +57,7 @@ namespace WLSGRA012{
                 return iterator(ptr);
             }
     };
+
 }
 
 

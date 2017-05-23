@@ -1,11 +1,14 @@
 #include<iostream>
+#include<string>
 #include"Image.h"
 
 using namespace std;
 using namespace WLSGRA012;
 
 void AddImages(Image & I1, Image & I2);
-void SubtractingImages(Image & I1, Image & I2);
+void SubtractImages(Image & I1, Image & I2);
+void InvertImage(Image & I1);
+void ThreshImage(Image & I1, string f);
 
 int main(int argc, char const *argv[]){
     using namespace std;
@@ -23,13 +26,13 @@ int main(int argc, char const *argv[]){
     if (command == "-a"){
         AddImages(I1, I2);
     } else if(command == "-s"){
-        SubtractingImages(I1, I2);
+        SubtractImages(I1, I2);
     } else if(command == "-i"){
-        cout << "inverting image" << endl;
+        InvertImage(I1);
     } else if(command == "-l"){
         cout << "masking images" << endl;
     } else if(command == "-t"){
-        cout << "threshold images" << endl;
+        ThreshImage(I1, argv[3]);
     } else {
         cout << "no such command " << command << endl;
     }
@@ -41,8 +44,21 @@ void AddImages(Image & I1, Image & I2){
     out.Write("Add.pgm");
 }
 
-void SubtractingImages(Image & I1, Image & I2){
+void SubtractImages(Image & I1, Image & I2){
     Image out;
-    out = I2 - I1;
+    out = I1 - I2;
     out.Write("Sub.pgm");
+}
+
+void InvertImage(Image & I1){
+    Image out;
+    out = !I1;
+    out.Write("Invert.pgm");
+}
+
+void ThreshImage(Image & I1, string f){
+    int thresh = stoi(f);
+    Image out;
+    out = I1 * thresh;
+    out.Write("Thresh.pgm");
 }
