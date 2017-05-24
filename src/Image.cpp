@@ -12,20 +12,24 @@ Image::Image(){
 }
 
 Image::~Image(){
+    data.reset();
 }
 
-//copy assignment constructor
-Image::Image(const Image &I) : height(I.height), width(I.width), thresh(I.thresh){
+//copy constructor
+Image::Image(Image &I) : height(I.height), width(I.width), thresh(I.thresh), name(I.name){
     data = unique_ptr<unsigned char[]>(new unsigned char[width*height]);
 
-    for (int i = 0; i <height*width; i++){
-        data.get()[i] = I.data.get()[i];
+    Image::iterator beg = this->begin(), end = this->end(); 
+    Image::iterator inStart = I.begin(), inEnd = I.end();
+    while ( beg != end) { 
+        beg = *inStart;
+
+        ++beg; ++inStart; 
     }
 }
 
 //move assignment constructor
 Image &Image::operator=(Image && I){
-    //  : height(I.height), width(I.width), thresh(I.thresh)
     cout << "Move assignment" << endl;
     return I;
 }
@@ -46,6 +50,7 @@ Image &Image::operator=(const Image & I){
 
 void Image::Read(string fileName){
     name = fileName;
+    fileName = "SourceImages/"+fileName;
     fstream reader(fileName, ios::in | ios::binary);
     string line;
 
@@ -99,7 +104,20 @@ void Image::Write(string fileName){
      }
 
      writer.close();
-    }
+}
+
+bool Image::SameSize(const Image & I){
+    return (height == I.height && width == I.width);
+}
+
+int Image::GetDimensions(){
+    return height * width;
+}
+
+unique_ptr<unsigned char[]> &Image::GetData(){
+    return data;
+}
+
 
 //operator overloads for Image
 Image &Image::operator+(Image &I){
@@ -189,6 +207,33 @@ Image &Image::operator*(int f){
     return *this;
 }
 
+bool Image::operator== (Image &I){
+    if (height==I.height && width==I.width && thresh==I.thresh && name==I.name){
+        //all variables are the same - check the data
+        Image::iterator beg = this->begin(), end = this->end(); 
+        Image::iterator inStart = I.begin(), inEnd = I.end();
+        while ( beg != end) { 
+            int pixel = (*inStart - *beg);
+            if (pixel != 0){
+                return false;
+            }
+           
+            ++beg; ++inStart; 
+        }
+    }
+    return true;
+}
+
+
+void Image::operator<<(string s){
+    cout << "Reading image from " << s << "..." << endl;
+    Read(s);
+}
+
+void Image::operator>>(string s){
+    cout << "Writing image to " << s << "..." << endl;
+    Write(s);
+}
 
 
 //operator overloads for iterator

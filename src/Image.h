@@ -15,18 +15,25 @@ namespace WLSGRA012{
             Image();
             Image &operator=(const Image & i);
             Image &operator=(Image && i);
-            Image(const Image &I);
+            Image(Image &I);
+            Image(Image &&I);
 
             ~Image();
 
             void Read(std::string fileName);
             void Write(std::string fileName);
+            bool SameSize(const Image & I);
+            int GetDimensions();
+            std::unique_ptr<unsigned char[]> &GetData();
             //overloads
             Image &operator+(Image &I);
             Image &operator-(Image &I);
             Image &operator/(Image &I);
             Image &operator!(void);
             Image &operator* (int f);
+            bool operator== (Image &I);
+            void operator<<(std::string s);
+            void operator>>(std::string s);
 
             class iterator{ 
                 friend class Image;

@@ -5,6 +5,8 @@
 using namespace std;
 using namespace WLSGRA012;
 
+string srcImagesDirectory = "srcImages/";
+
 void AddImages(Image & I1, Image & I2);
 void SubtractImages(Image & I1, Image & I2);
 void InvertImage(Image & I1);
@@ -16,11 +18,11 @@ int main(int argc, char const *argv[]){
     Image I1, I2;
     if (argc == 4){
         //there are 2 images passed in
-        I1.Read(argv[2]);
-        I2.Read(argv[3]);
+        I1 << argv[2]; //read image 1
+        I2 << argv[3]; //read image 1
     } else if (argc == 3){
         //there is 1 image passed in 
-        I1.Read(argv[2]);
+        I1 << argv[2]; //read image 1
     }
 
     string command = string(argv[1]);
@@ -40,32 +42,44 @@ int main(int argc, char const *argv[]){
 }
 
 void AddImages(Image & I1, Image & I2){
+    if (!I1.SameSize(I2)){
+        cout << "Files are not the same size. Can not add." << endl;
+        return;
+    }
     Image out;
     out = I1 + I2;
-    out.Write("Add.pgm");
+    out >> "Add.pgm";
 }
 
 void SubtractImages(Image & I1, Image & I2){
+    if (!I1.SameSize(I2)){
+        cout << "Files are not the same size. Can not add." << endl;
+        return;
+    }
     Image out;
     out = I1 - I2;
-    out.Write("Sub.pgm");
+    out >> "Sub.pgm";
 }
 
 void InvertImage(Image & I1){
     Image out;
     out = !I1;
-    out.Write("Invert.pgm");
+    out >> "Invert.pgm";
 }
 
 void ThreshImage(Image & I1, string f){
     int thresh = stoi(f);
     Image out;
     out = I1 * thresh;
-    out.Write("Thresh.pgm");
+    out >> "Thresh.pgm";
 }
 
 void MaskImages(Image & I1, Image & I2){
+    if (!I1.SameSize(I2)){
+        cout << "Files are not the same size. Can not add." << endl;
+        return;
+    }
     Image out;
     out = I1 / I2;
-    out.Write("Mask.pgm");
+    out >> "Mask.pgm";
 }
