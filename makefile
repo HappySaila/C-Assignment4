@@ -33,6 +33,13 @@ mask:
 	./$(PROGRAM) -l Lenna_hat_mask.pgm Lenna_standard.pgm
 	open Mask.pgm
 
+test:
+	clear
+	g++ catch.hpp test.cpp $(SRCDIR)/Image.cpp $(CPPFLAGS) -c
+	g++ *.o -o test
+	clear
+	./test
+
 CPPFLAGS = -std=c++11
 
 SRCDIR = ./src
