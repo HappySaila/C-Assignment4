@@ -9,7 +9,8 @@ add:
 	clear
 	./$(PROGRAM) -a Lenna_hat_mask.pgm Lenna_standard.pgm  
 	mv Add.pgm CreatedImages
-	cd CreatedImages && open Add.pgm	
+	cd CreatedImages && open Add.pgm
+	mv $(PROGRAM) $(BINDIR)
 
 sub:
 	make compile
@@ -17,6 +18,7 @@ sub:
 	./$(PROGRAM) -s Lenna_hat_mask.pgm Lenna_standard.pgm
 	mv Sub.pgm CreatedImages	
 	cd CreatedImages && open Sub.pgm
+	mv $(PROGRAM) $(BINDIR)
 
 invert:
 	make compile
@@ -24,6 +26,7 @@ invert:
 	./$(PROGRAM) -i Lenna_standard.pgm
 	mv Invert.pgm CreatedImages
 	cd CreatedImages && open Invert.pgm
+	mv $(PROGRAM) $(BINDIR)
 
 thresh:
 	make compile
@@ -31,6 +34,7 @@ thresh:
 	./$(PROGRAM) -t Lenna_standard.pgm 125
 	mv Thresh.pgm CreatedImages	
 	cd CreatedImages && open Thresh.pgm
+	mv $(PROGRAM) $(BINDIR)
 
 mask:
 	make compile
@@ -38,6 +42,7 @@ mask:
 	./$(PROGRAM) -l Lenna_hat_mask.pgm Lenna_standard.pgm
 	mv Mask.pgm CreatedImages	
 	cd CreatedImages && open Mask.pgm
+	mv $(PROGRAM) $(BINDIR)
 
 test:
 	clear
@@ -49,6 +54,7 @@ test:
 	mv test2.pgm CreatedImages
 	mv catch.hpp.gch $(BINDIR)
 	rm testMain
+	mv *.o $(BINDIR)
 	make clean
 
 CPPFLAGS = -std=c++11
@@ -59,6 +65,6 @@ SRCIMG = ./SourceImages
 PROGRAM = main
 
 clean :
-	cd CreatedImages && rm *
 	cd $(BINDIR) && rm *
+	cd CreatedImages && rm *
 
