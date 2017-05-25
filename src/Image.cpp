@@ -89,6 +89,7 @@ void Image::Read(string fileName){
 
 void Image::Write(string fileName){
     //will write Image file to fileName as a PGM
+    fileName = "CreatedImages/"+fileName;
     fstream writer(fileName, ios::out | ios::binary | ios::trunc);
      if (writer.good()){
         writer << "P5" << endl << "#Assignment5 file - WLSGRA012" << endl << width << " " << height << endl << thresh << endl;

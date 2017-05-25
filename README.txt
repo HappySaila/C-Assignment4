@@ -13,6 +13,7 @@ make mask - will mask I2 using I1
 make invert = will invert I1
 make thresh = will thresh I1 with an f value of 120
 make test - will run all of my test cases
+make all - will run all the make commands. Calls make add through to make test.
 
 Please note that after you use one of the above function, the make file will clean up after itself.
 This prevents you from calling your own functions. So this should be really easy to mark.

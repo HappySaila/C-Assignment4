@@ -50,11 +50,15 @@ TEST_CASE("Save","[Save]"){
 		b.Write("test2.pgm");
 
 		Image c;
-		c.Read("test1.pgm");
+		c.Read("../CreatedImages/test1.pgm");
 		Image d;
-		d.Read("test2.pgm");
+		d.Read("../CreatedImages/test2.pgm");
 
 		REQUIRE(c==d);
+		REQUIRE(c==a);
+		REQUIRE(c==b);
+		REQUIRE(d==a);
+		REQUIRE(d==b);
 	}
 }
 
@@ -125,12 +129,10 @@ TEST_CASE("Copy operator","[Constructor]"){
 	SECTION("Testing Constuctor Copy"){
 		Image a;
 		a << "Lenna_standard.pgm";
-		Image b;
-		b << "Lenna_stardard.pgm";
 
-		Image c(b);
+		Image b(a);
 
-		REQUIRE(a==c);
+		REQUIRE(a==b);
 	}
 }
 
@@ -139,12 +141,10 @@ TEST_CASE("Constructor Copy Assignment","[Constructor]"){
 	SECTION("Testing Constructor Copy Assignment"){
 		Image a;
 		a << "Lenna_standard.pgm";
-		Image b;
-		b << "Lenna_stardard.pgm";
 
-		Image c = a;
+		Image b = a;
 
-		REQUIRE(a==c);
+		REQUIRE(a==b);
 	}
 }
 
